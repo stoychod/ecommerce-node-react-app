@@ -1,17 +1,19 @@
+import { PORT } from "./environment";
 import express from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
+import query from "./db";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = PORT || 3000;
 
 app.get("/", (req, res) => {
   res.send("Express + TypeScript Server");
 });
 
-app.get("/user", (req, res) => {
-  res.send("Hello, Stoycho");
+app.get("/users", (req, res) => {
+  query("SELECT * FROM users", [])
+    .then((result) => res.send(result.rows[0]))
+    .catch((err) => console.log(err));
+  // res.send("Hello, Stoycho");
 });
 
 app.listen(port, () => {
