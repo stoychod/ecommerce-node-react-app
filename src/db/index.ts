@@ -9,8 +9,10 @@ const pool = new Pool({
   port: DB.PGPORT,
 });
 
-const query = (text: string, paramas: []) => {
-  return pool.query(text, paramas);
+const db = {
+  query: (statement: string, paramas: string[]) => {
+    return pool.query(statement, paramas);
+  },
 };
 
-export default query;
+export default db;
