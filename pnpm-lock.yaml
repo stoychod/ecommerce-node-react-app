@@ -7,6 +7,9 @@ dependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.2
+  http-errors:
+    specifier: ^2.0.0
+    version: 2.0.0
   pg:
     specifier: ^8.10.0
     version: 8.10.0
@@ -15,6 +18,9 @@ devDependencies:
   '@types/express':
     specifier: ^4.17.17
     version: 4.17.17
+  '@types/http-errors':
+    specifier: ^2.0.1
+    version: 2.0.1
   '@types/node':
     specifier: ^18.16.1
     version: 18.16.1
@@ -365,6 +371,10 @@ packages:
       '@types/express-serve-static-core': 4.17.34
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.1
+    dev: true
+
+  /@types/http-errors@2.0.1:
+    resolution: {integrity: sha512-/K3ds8TRAfBvi5vfjuz8y6+GiAYBZ0x4tXv1Av6CWBWn0IlADc+ZX9pMq7oU0fNQPnBwIZl3rmeLp6SBApbxSQ==}
     dev: true
 
   /@types/json-schema@7.0.11:
