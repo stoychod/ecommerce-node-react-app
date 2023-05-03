@@ -5,7 +5,6 @@ import configureApplication from "./configuration";
 const app = express();
 const port = PORT || 3000;
 
-app.use(express.json());
 configureApplication(app);
 
 app.listen(port, () => {
