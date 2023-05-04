@@ -10,3 +10,5 @@ export const DB = {
   PGHOST: process.env.PGHOST,
   PGPORT: parseInt(process.env.PGPORT || ""),
 };
+
+export const SESSION_SECRET = process.env.SESSION_SECRET || "";
