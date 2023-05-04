@@ -5,7 +5,7 @@ const configureExpress = (app: Application) => {
   app.use(express.json());
 
   // parse request wiht urlencoded payloads
-  app.use(express.urlencoded());
+  app.use(express.urlencoded({ extended: true }));
 };
 
 export default configureExpress;
