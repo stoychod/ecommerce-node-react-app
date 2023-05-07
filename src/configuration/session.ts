@@ -2,24 +2,15 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { SESSION_SECRET } from "../environment";
 import { Application } from "express";
-import { Pool, QueryResult } from "pg";
+import { Pool } from "pg";
 
-const configureSession = (
-  app: Application,
-  db: {
-    pool: Pool;
-    query: (
-      statement: string,
-      params: string[]
-    ) => Promise<QueryResult<object>>;
-  }
-) => {
+const configureSession = (app: Application, pool: Pool) => {
   const pgSession = connectPgSimple(session);
 
   app.use(
     session({
       store: new pgSession({
-        pool: db.pool,
+        pool: pool,
         tableName: "user_sessions",
         createTableIfMissing: true,
       }),

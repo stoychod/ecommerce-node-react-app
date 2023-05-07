@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import userModel from "../models/user";
+import db from "../db";
 import bcrypt from "bcrypt";
 
 const authService = {
@@ -13,7 +13,7 @@ const authService = {
     const { email, password, firstName = "", lastName = "" } = userData;
 
     try {
-      const user = await userModel.findByOneEmail(email);
+      const user = await db.user.findByOneEmail(email);
       if (user) {
         throw createError(409, "Emali already in use");
       }
@@ -21,7 +21,7 @@ const authService = {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      const newUser = await userModel.create([
+      const newUser = await db.user.create([
         email,
         hashedPassword,
         firstName,

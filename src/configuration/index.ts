@@ -2,15 +2,12 @@ import { Application } from "express";
 import configureRoutes from "../routes";
 import configureExpress from "./express";
 import configureSession from "./session";
-import { Pool, QueryResult } from "pg";
+import { Pool } from "pg";
 
-const configureApplication = async (
-  app: Application,
-  db: { pool: Pool; query: (statement: string, params: string[]) => Promise<QueryResult<object>> }
-) => {
+const configureApplication = async (app: Application, pool: Pool) => {
   configureExpress(app);
 
-  configureSession(app, db);
+  configureSession(app, pool);
 
   configureRoutes(app);
 };

@@ -1,12 +1,12 @@
-import db from "../db";
+import pool from "./pool";
 
-const userModel = {
+const user = {
   create: async (userData: string[]) => {
     const statement =
       "INSERT INTO users(email, password, first_name, last_name) VALUES($1, $2, $3, $4) RETURNING *";
     try {
       console.log(userData);
-      const result = await db.query(statement, userData);
+      const result = await pool.query(statement, userData);
       if (result.rows?.length) {
         console.log(result.rows[0]);
         return result.rows[0];
@@ -20,9 +20,9 @@ const userModel = {
   },
 
   findByOneEmail: async (email: string) => {
-    const statement = "SELECT email FROM users WHERE email = $1";
+    const statement = "SELECT * FROM users WHERE email = $1";
     try {
-      const result = await db.query(statement, [email]);
+      const result = await pool.query(statement, [email]);
       if (result.rows?.length) {
         console.log(result.rows[0]);
         return result.rows[0];
@@ -36,4 +36,4 @@ const userModel = {
   },
 };
 
-export default userModel;
+export default user;
