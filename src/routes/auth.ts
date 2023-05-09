@@ -1,8 +1,9 @@
 import express, { Application } from "express";
 const router = express.Router();
 import authService from "../services/auth";
+import { PassportStatic } from "passport";
 
-const authRouter = (app: Application) => {
+const authRouter = (app: Application, passport: PassportStatic) => {
   app.use("/auth", router);
 
   router.post("/register", async (req, res, next) => {
