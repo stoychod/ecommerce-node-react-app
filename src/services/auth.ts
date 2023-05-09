@@ -35,6 +35,27 @@ const authService = {
       }
     }
   },
+
+  login: async (email: string, password: string) => {
+    try {
+      const user = await db.user.findByOneEmail(email);
+      if (!user) {
+        throw createError(401, "Incorrect username or password");
+      }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (!passwordMatch) {
+        throw createError(401, "Incorrect username or password");
+      }
+
+      return user;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw createError(500, error);
+      }
+    }
+  },
 };
 
 export default authService;
