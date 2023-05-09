@@ -15,6 +15,16 @@ const authRouter = (app: Application) => {
       next(error);
     }
   });
+
+  router.post(
+    "/login",
+    passport.authenticate("local"),
+    async (req, res, next) => {
+      console.log(req.session);
+      console.log(req.user);
+      return res.status(200).send(req.user);
+    }
+  );
 };
 
 export default authRouter;
