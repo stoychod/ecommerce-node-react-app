@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 const router = express.Router();
-import authService from "../services/auth";
+import authService from "../services/authService";
 import { PassportStatic } from "passport";
 
 const authRouter = (app: Application, passport: PassportStatic) => {
@@ -26,6 +26,12 @@ const authRouter = (app: Application, passport: PassportStatic) => {
       return res.status(200).send(req.user);
     }
   );
+
+  router.get("/products", async (req, res) => {
+    console.log(req.session);
+    console.log(req.user);
+    res.status(200).send("Apples, Mangos, Watermellons");
+  });
 };
 
 export default authRouter;
