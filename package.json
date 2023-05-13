@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": [],
@@ -22,11 +22,13 @@
     "pg": "^8.10.0"
   },
   "devDependencies": {
+    "@jest/types": "^29.5.0",
     "@types/bcrypt": "^5.0.0",
     "@types/connect-pg-simple": "^7.0.0",
     "@types/express": "^4.17.17",
     "@types/express-session": "^1.17.7",
     "@types/http-errors": "^2.0.1",
+    "@types/jest": "^29.5.1",
     "@types/node": "^18.16.1",
     "@types/passport": "^1.0.12",
     "@types/passport-local": "^1.0.35",
@@ -34,6 +36,8 @@
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
     "eslint": "^8.39.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
     "tsx": "^3.12.6",
     "typescript": "^5.0.4"
   }
