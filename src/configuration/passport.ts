@@ -1,9 +1,12 @@
 import passport from "passport";
 import { Strategy as LocalStrategy, VerifyFunction } from "passport-local";
 import { Application } from "express";
-import authService from "../services/auth";
+import AuthService from "../services/authService";
+import { Pool } from "pg";
 
-const configurePassport = (app: Application) => {
+const configurePassport = (app: Application, db: Pool) => {
+  const authService = new AuthService(db);
+
   app.use(passport.initialize());
   app.use(passport.session());
 

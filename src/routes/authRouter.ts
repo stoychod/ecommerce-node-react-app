@@ -1,9 +1,12 @@
 import express, { Application } from "express";
 const router = express.Router();
-import authService from "../services/authService";
+import AuthService from "../services/authService";
 import { PassportStatic } from "passport";
+import { Pool } from "pg";
 
-const authRouter = (app: Application, passport: PassportStatic) => {
+const authRouter = (app: Application, passport: PassportStatic, db: Pool) => {
+  const authService = new AuthService(db);
+
   app.use("/auth", router);
 
   router.post("/register", async (req, res, next) => {
@@ -20,7 +23,7 @@ const authRouter = (app: Application, passport: PassportStatic) => {
   router.post(
     "/login",
     passport.authenticate("local"),
-    async (req, res, next) => {
+    async (req, res) => {
       console.log(req.session);
       console.log(req.user);
       return res.status(200).send(req.user);

@@ -1,19 +1,25 @@
 import createError from "http-errors";
-import db from "../db";
 import bcrypt from "bcrypt";
+import { Pool } from "pg";
+import UserModel from "../models/userModel";
 
-const authService = {
-  register: async (userData: {
+class AuthService {
+  userModel: UserModel;
+  constructor(db: Pool) {
+    this.userModel = new UserModel(db);
+  }
+
+  async register(userData: {
     email: string;
     password: string;
     firstName?: string;
     lastName?: string;
-  }) => {
+  }) {
     // console.log(userData);
     const { email, password, firstName = "", lastName = "" } = userData;
 
     try {
-      const user = await db.user.findByOneEmail(email);
+      const user = await this.userModel.findByOneEmail(email);
       if (user) {
         throw createError(409, "Emali already in use");
       }
@@ -21,7 +27,7 @@ const authService = {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      const newUser = await db.user.create([
+      const newUser = await this.userModel.create([
         email,
         hashedPassword,
         firstName,
@@ -34,11 +40,11 @@ const authService = {
         throw createError(500, error);
       }
     }
-  },
+  }
 
-  login: async (email: string, password: string) => {
+  async login(email: string, password: string) {
     try {
-      const user = await db.user.findByOneEmail(email);
+      const user = await this.userModel.findByOneEmail(email);
       if (!user) {
         throw createError(401, "Incorrect username or password");
       }
@@ -55,7 +61,7 @@ const authService = {
         throw createError(500, error);
       }
     }
-  },
-};
+  }
+}
 
-export default authService;
+export default AuthService;

@@ -5,14 +5,14 @@ import configureSession from "./session";
 import configurePassport from "./passport";
 import { Pool } from "pg";
 
-const configureApplication = async (app: Application, pool: Pool) => {
+const configureApplication = (app: Application, db: Pool) => {
   configureExpress(app);
 
-  configureSession(app, pool);
+  configureSession(app, db);
 
-  const passport = configurePassport(app);
+  const passport = configurePassport(app, db);
 
-  configureRoutes(app, passport);
+  configureRoutes(app, passport, db);
 };
 
 export default configureApplication;

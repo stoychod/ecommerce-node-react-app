@@ -1,10 +1,16 @@
-import db from "../db";
+import { Pool } from "pg";
+import ProductModel from "../models/productModel";
 import createHttpError from "http-errors";
 
-const productService = {
-  getProduct: async (id: number) => {
+class ProductService {
+  productModel: ProductModel;
+  constructor(db: Pool) {
+    this.productModel = new ProductModel(db);
+  }
+
+  async getProduct(id: number) {
     try {
-      const product = db.product.getById(id);
+      const product = this.productModel.getById(id);
       if (!product) {
         throw createHttpError(401, "Product not found");
       }
@@ -15,7 +21,7 @@ const productService = {
         throw createHttpError(500, error);
       }
     }
-  },
-};
+  }
+}
 
-export default productService;
+export default ProductService;
