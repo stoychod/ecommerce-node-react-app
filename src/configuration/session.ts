@@ -4,13 +4,13 @@ import { SESSION_SECRET } from "../environment";
 import { Application } from "express";
 import { Pool } from "pg";
 
-const configureSession = (app: Application, pool: Pool) => {
+const configureSession = (app: Application, db: Pool) => {
   const pgSession = connectPgSimple(session);
 
   app.use(
     session({
       store: new pgSession({
-        pool: pool,
+        pool: db,
         tableName: "user_sessions",
         createTableIfMissing: true,
       }),

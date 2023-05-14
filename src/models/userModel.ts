@@ -1,26 +1,30 @@
-import pool from "./pool";
+import { Pool } from "pg";
 
-const user = {
-  create: async (userData: string[]) => {
+class UserModel {
+  db: Pool;
+  constructor(db: Pool) {
+    this.db = db;
+  }
+  async create(userData: string[]) {
     const statement =
       "INSERT INTO users(email, password, first_name, last_name) VALUES($1, $2, $3, $4) RETURNING *";
-    const result = await pool.query(statement, userData);
+    const result = await this.db.query(statement, userData);
     if (result.rows?.length) {
       return result.rows[0];
     }
 
     return null;
-  },
+  }
 
-  findByOneEmail: async (email: string) => {
+  async findByOneEmail(email: string) {
     const statement = "SELECT * FROM users WHERE email = $1";
-    const result = await pool.query(statement, [email]);
+    const result = await this.db.query(statement, [email]);
     if (result.rows?.length) {
       return result.rows[0];
     }
 
     return null;
-  },
-};
+  }
+}
 
-export default user;
+export default UserModel;

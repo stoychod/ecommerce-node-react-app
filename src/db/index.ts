@@ -1,11 +1,12 @@
-import pool from "./pool";
-import user from "./user";
-import product from "./product";
+import { Pool } from "pg";
+import { DB } from "../environment";
 
-const db = {
-  pool,
-  user,
-  product,
-};
+const db = new Pool({
+  database: DB.PGDATABASE,
+  user: DB.PGUSER,
+  password: DB.PGPASSWORD,
+  host: DB.PGHOST,
+  port: DB.PGPORT,
+});
 
 export default db;
