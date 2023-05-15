@@ -10,7 +10,7 @@ class ProductService {
 
   async getProduct(id: number) {
     try {
-      const product = this.productModel.getById(id);
+      const product = await this.productModel.getById(id);
       if (!product) {
         throw createHttpError(401, "Product not found");
       }
