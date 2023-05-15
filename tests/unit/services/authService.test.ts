@@ -17,7 +17,7 @@ describe("register", () => {
     try {
       const authService = new AuthService(db);
       await authService.register({
-        email: "e@e.com",
+        email: "email@service.com",
         password: "password",
         firstName: "firstName",
         lastName: "lastName",
@@ -29,7 +29,7 @@ describe("register", () => {
 
   it("should return user with a hashed password", async () => {
     const user = {
-      email: "e@e.com",
+      email: "email@service.com",
       password: "password",
       firstName: "firstName",
       lastName: "lastName",
@@ -66,7 +66,7 @@ describe("register", () => {
     try {
       const authService = new AuthService(db);
       await authService.register({
-        email: "e@e.com",
+        email: "email@service.com",
         password: "password",
         firstName: "firstName",
         lastName: "lastName",
@@ -74,5 +74,80 @@ describe("register", () => {
     } catch (error) {
       expect(error).toEqual(createHttpError(500, "Server error"));
     }
+  });
+
+  describe("login", () => {
+    it("should throw 401, incorrect username or password if no user is found", async () => {
+      (UserModel as jest.Mock).mockImplementation(() => {
+        return {
+          findOneByEmail: jest.fn().mockResolvedValue(false),
+        };
+      });
+
+      try {
+        const authService = new AuthService(db);
+        await authService.login("email@service.com", "password");
+      } catch (error) {
+        expect(error).toEqual(
+          createHttpError(401, "Incorrect username or password")
+        );
+      }
+    });
+
+    it("should throw 401, incorrect username or password if passwords do not match", async () => {
+      const email = "email@service.com";
+      const password = "password";
+
+      (UserModel as jest.Mock).mockImplementation(() => {
+        return {
+          findOneByEmail: jest.fn().mockResolvedValue({ email, password }),
+        };
+      });
+
+      try {
+        const authService = new AuthService(db);
+        await authService.login(email, password);
+      } catch (error) {
+        expect(error).toEqual(
+          createHttpError(401, "Incorrect username or password")
+        );
+      }
+    });
+
+    it("it should return the user if passwords match", async () => {
+      const email = "email@service.com";
+      const palinTextPassword = "password";
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(palinTextPassword, saltRounds);
+
+      (UserModel as jest.Mock).mockImplementation(() => {
+        return {
+          findOneByEmail: jest
+            .fn()
+            .mockResolvedValue({ email, password: hashedPassword }),
+        };
+      });
+
+      const authService = new AuthService(db);
+      const registeredUser = await authService.login(email, palinTextPassword);
+      expect(registeredUser).toEqual({ email, password: hashedPassword });
+    });
+
+    it("should throw 501 error if database call fails", async () => {
+      (UserModel as jest.Mock).mockImplementation(() => {
+        return {
+          findOneByEmail: jest.fn().mockImplementation(() => {
+            throw createHttpError(500, "Server error");
+          }),
+        };
+      });
+
+      try {
+        const authService = new AuthService(db);
+        await authService.login("email@service.com", "password");
+      } catch (error) {
+        expect(error).toEqual(createHttpError(500, "Server error"));
+      }
+    });
   });
 });
