@@ -19,9 +19,9 @@ export default class AuthService {
     const { email, password, firstName = "", lastName = "" } = userData;
 
     try {
-      const user = await this.userModel.findByOneEmail(email);
+      const user = await this.userModel.findOneByEmail(email);
       if (user) {
-        throw createError(409, "Emali already in use");
+        throw createError(409, "Email already in use");
       }
 
       const saltRounds = 10;
@@ -44,7 +44,7 @@ export default class AuthService {
 
   async login(email: string, password: string) {
     try {
-      const user = await this.userModel.findByOneEmail(email);
+      const user = await this.userModel.findOneByEmail(email);
       if (!user) {
         throw createError(401, "Incorrect username or password");
       }

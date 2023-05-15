@@ -16,7 +16,7 @@ export default class UserModel {
     return null;
   }
 
-  async findByOneEmail(email: string) {
+  async findOneByEmail(email: string) {
     const statement = "SELECT * FROM users WHERE email = $1";
     const result = await this.db.query(statement, [email]);
     if (result.rows?.length) {
