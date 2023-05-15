@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 
-class ProductModel {
+export default class ProductModel {
   db: Pool;
   constructor(db: Pool) {
     this.db = db;
@@ -15,5 +15,3 @@ class ProductModel {
     return null;
   }
 }
-
-export default ProductModel;

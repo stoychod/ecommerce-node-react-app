@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import ProductModel from "../models/productModel";
 import createHttpError from "http-errors";
 
-class ProductService {
+export default class ProductService {
   productModel: ProductModel;
   constructor(db: Pool) {
     this.productModel = new ProductModel(db);
@@ -23,5 +23,3 @@ class ProductService {
     }
   }
 }
-
-export default ProductService;

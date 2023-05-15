@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { Pool } from "pg";
 import UserModel from "../models/userModel";
 
-class AuthService {
+export default class AuthService {
   userModel: UserModel;
   constructor(db: Pool) {
     this.userModel = new UserModel(db);
@@ -63,5 +63,3 @@ class AuthService {
     }
   }
 }
-
-export default AuthService;
