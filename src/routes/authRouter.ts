@@ -20,15 +20,11 @@ const authRouter = (app: Application, passport: PassportStatic, db: Pool) => {
     }
   });
 
-  router.post(
-    "/login",
-    passport.authenticate("local"),
-    async (req, res) => {
-      console.log(req.session);
-      console.log(req.user);
-      return res.status(200).send(req.user);
-    }
-  );
+  router.post("/login", passport.authenticate("local"), async (req, res) => {
+    console.log(req.session);
+    console.log(req.user);
+    return res.status(200).send(req.user);
+  });
 
   router.get("/products", async (req, res) => {
     console.log(req.session);
