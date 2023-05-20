@@ -4,6 +4,7 @@ import configureExpress from "./express";
 import configureSession from "./session";
 import configurePassport from "./passport";
 import { Pool } from "pg";
+import errorMiddleware from "../middleware/error";
 
 const configureApplication = (app: Application, db: Pool) => {
   configureExpress(app);
@@ -13,6 +14,8 @@ const configureApplication = (app: Application, db: Pool) => {
   const passport = configurePassport(app, db);
 
   configureRoutes(app, passport, db);
+
+  app.use(errorMiddleware);
 };
 
 export default configureApplication;

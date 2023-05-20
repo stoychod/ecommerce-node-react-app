@@ -1,7 +1,7 @@
 import { PORT } from "./environment";
 import createApp from "./app";
 import db from "./db";
-import logger from "./log/logger";
+import logger from "./logger/logger";
 
 const app = createApp(db);
 const port = PORT || 3000;
