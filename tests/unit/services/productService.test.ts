@@ -29,7 +29,7 @@ describe("getProdct", () => {
     });
 
     const productService = new ProductService(db);
-    const product = await productService.getProduct(1);
+    const product = await productService.getProduct("1");
 
     expect(product).toEqual(mockedProduct);
   });
@@ -44,7 +44,7 @@ describe("getProdct", () => {
     // expect.assertions(1);
     try {
       const productService = new ProductService(db);
-      await productService.getProduct(1);
+      await productService.getProduct("1");
     } catch (error) {
       expect(error).toEqual(createHttpError(401, "Product not found"));
     }
@@ -61,7 +61,7 @@ describe("getProdct", () => {
 
     try {
       const productService = new ProductService(db);
-      await productService.getProduct(1);
+      await productService.getProduct("1");
     } catch (error) {
       expect(error).toEqual(createHttpError(500, "Server error"));
     }
