@@ -8,15 +8,16 @@ export default class ProductService {
     this.productModel = new ProductModel(db);
   }
 
-  async getProduct(id: number) {
+  async getProduct(id: string) {
     try {
       const product = await this.productModel.getById(id);
       if (!product) {
-        throw createHttpError(401, "Product not found");
+        throw createHttpError(404, "Product not found");
       }
 
       return product;
     } catch (error) {
+      console.log("Inside error catch");
       if (error instanceof Error) {
         throw createHttpError(500, error);
       }
