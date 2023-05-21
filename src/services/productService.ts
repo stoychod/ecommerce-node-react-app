@@ -17,7 +17,6 @@ export default class ProductService {
 
       return product;
     } catch (error) {
-      console.log("Inside error catch");
       if (error instanceof Error) {
         throw createHttpError(500, error);
       }

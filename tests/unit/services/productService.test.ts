@@ -50,7 +50,7 @@ describe("getProdct", () => {
     }
   });
 
-  it("should throw 501 error if database call fails", async () => {
+  it("should throw 500 error if database call fails", async () => {
     (ProductModel as jest.Mock).mockImplementation(() => {
       return {
         getById: jest.fn().mockImplementation(() => {

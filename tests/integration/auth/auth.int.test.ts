@@ -121,7 +121,7 @@ describe("POST /atuh/login", () => {
     const hashedPassword = await bcrypt.hash(user.password, saltRounds);
 
     // so insert a user in the database
-    db.query(
+    await db.query(
       "INSERT INTO users(email, password, first_name, last_name) VALUES($1, $2, $3, $4)",
       [user.email, hashedPassword, user.firstName, user.lastName]
     );
@@ -161,6 +161,5 @@ describe("POST /atuh/login", () => {
     const response = await request(app).post("/auth/login").send(user);
 
     expect(response.status).toBe(500);
-    console.log(response.body);
   });
 });
