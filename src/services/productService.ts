@@ -10,7 +10,7 @@ export default class ProductService {
 
   async getProduct(id: string) {
     try {
-      const product = await this.productModel.getById(id);
+      const product = await this.productModel.findOneById(id);
       if (!product) {
         throw createHttpError(404, "Product not found");
       }

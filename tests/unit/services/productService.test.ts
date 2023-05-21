@@ -7,7 +7,7 @@ import createHttpError from "http-errors";
 // const mockGetById = jest.fn().mockResolvedValue("test");
 // jest.mock("../../../src/models/productModel", () => {
 //   return jest.fn().mockImplementation(() => {
-//     return { getById: mockGetById };
+//     return { findOneById: mockFindOneById };
 //   });
 // });
 
@@ -24,7 +24,7 @@ describe("getProdct", () => {
 
     (ProductModel as jest.Mock).mockImplementation(() => {
       return {
-        getById: jest.fn().mockResolvedValue(mockedProduct),
+        findOneById: jest.fn().mockResolvedValue(mockedProduct),
       };
     });
 
@@ -37,7 +37,7 @@ describe("getProdct", () => {
   it("should thorw 401 if product not in database", async () => {
     (ProductModel as jest.Mock).mockImplementation(() => {
       return {
-        getById: jest.fn().mockResolvedValue(null),
+        findOneById: jest.fn().mockResolvedValue(null),
       };
     });
 
@@ -53,7 +53,7 @@ describe("getProdct", () => {
   it("should throw 500 error if database call fails", async () => {
     (ProductModel as jest.Mock).mockImplementation(() => {
       return {
-        getById: jest.fn().mockImplementation(() => {
+        findOneById: jest.fn().mockImplementation(() => {
           throw createHttpError(500, "Server error");
         }),
       };

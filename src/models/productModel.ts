@@ -5,7 +5,7 @@ export default class ProductModel {
   constructor(db: Pool) {
     this.db = db;
   }
-  async getById(producId: string) {
+  async findOneById(producId: string) {
     const statement = "SELECT * FROM product WHERE id = $1";
     const result = await this.db.query(statement, [producId]);
     // console.log(result.rows[0]);
