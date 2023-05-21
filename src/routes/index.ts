@@ -2,7 +2,7 @@ import { Application } from "express";
 import authRouter from "./authRouter";
 import { PassportStatic } from "passport";
 import { Pool } from "pg";
-import productRouter from "./productRoute";
+import productRouter from "./productRouter";
 
 const configureRoutes = (
   app: Application,

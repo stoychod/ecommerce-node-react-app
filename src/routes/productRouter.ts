@@ -10,6 +10,7 @@ const productRouter = (app: Application, db: Pool) => {
 
   router.get("/:id", async (req, res, next) => {
     try {
+      console.log("product route called");
       const productId = req.params.id;
       const product = await productService.getProduct(productId);
       console.log(product);
