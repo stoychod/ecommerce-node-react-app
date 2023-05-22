@@ -17,8 +17,9 @@ export default class ProductModel {
   }
 
   async find(category: string | null) {
+    console.log(category);
     const statement =
-      "SELECT * FROM product WHERE ($1 IS NULL OR category = $1)";
+      "SELECT * FROM product WHERE (category = $1 OR $1 IS NULL)";
     const result = await this.db.query(statement, [category]);
 
     return result.rows;
