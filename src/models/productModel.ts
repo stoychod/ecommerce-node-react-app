@@ -15,4 +15,12 @@ export default class ProductModel {
 
     return null;
   }
+
+  async find(category: string | null) {
+    const statement =
+      "SELECT * FROM product WHERE ($1 IS NULL OR category = $1)";
+    const result = await this.db.query(statement, [category]);
+
+    return result.rows;
+  }
 }
