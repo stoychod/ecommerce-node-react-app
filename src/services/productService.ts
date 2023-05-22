@@ -22,4 +22,16 @@ export default class ProductService {
       }
     }
   }
+
+  async listProducts(category: string | null) {
+    try {
+      const products = await this.productModel.find(category);
+
+      return products;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw createHttpError(500, error);
+      }
+    }
+  }
 }
