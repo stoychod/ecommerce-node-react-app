@@ -8,7 +8,8 @@ import setupDB from "../../../setupDB";
 import createApp from "../../../src/app";
 import { Application } from "express";
 
-describe("GET /prduct/:id", () => {
+
+describe("GET /products/:id", () => {
   let container: StartedPostgreSqlContainer, db: Pool, app: Application;
   beforeAll(async () => {
     // initialize test container
@@ -32,7 +33,7 @@ describe("GET /prduct/:id", () => {
 
   it("should return 404, product not found if product not in database", async () => {
     // database is currently empty
-    const response = await request(app).get("/product/1");
+    const response = await request(app).get("/products/1");
 
     expect(response.status).toBe(404);
   });
@@ -57,7 +58,7 @@ describe("GET /prduct/:id", () => {
       // if so proceed with the test
       const dbPproduct = result.rows[0];
 
-      const response = await request(app).get(`/product/${dbPproduct.id}`);
+      const response = await request(app).get(`/products/${dbPproduct.id}`);
       // console.log(response.body);
 
       expect(response.status).toBe(200);
@@ -84,7 +85,7 @@ describe("GET /prduct/:id", () => {
 
   it("should return 500 error if database call falis", async () => {
     // database is disconnected now so this call should fail
-    const response = await request(app).get("/product/1");
+    const response = await request(app).get("/products/1");
 
     expect(response.status).toBe(500);
   });
