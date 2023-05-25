@@ -7,7 +7,7 @@ export default class CartModel {
   }
 
   async create(userId: string) {
-    const statement = "INSERT INTO cart(users_id, total) $1, $2";
+    const statement = "INSERT INTO cart(users_id, total) $1, $2 RETURNING *";
     const result = await this.db.query(statement, [userId, 0]);
 
     if (result.rows?.length) {
