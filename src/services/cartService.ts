@@ -65,4 +65,16 @@ export default class CartService {
       }
     }
   }
+
+  async removeItem(cartItemId: string) {
+    try {
+      const deletedItem = await this.cartItemModel.delete(cartItemId);
+
+      return deletedItem;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw createHttpError(500, "Server error");
+      }
+    }
+  }
 }
