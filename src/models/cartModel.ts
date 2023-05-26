@@ -22,7 +22,7 @@ export default class CartModel {
     const result = await this.db.query(statement, [userId]);
 
     if (result.rows?.length) {
-      return result.rows;
+      return result.rows[0];
     }
 
     return null;
@@ -33,7 +33,7 @@ export default class CartModel {
     const result = await this.db.query(statement, [cartId]);
 
     if (result.rows?.length) {
-      return result.rows;
+      return result.rows[0];
     }
 
     return null;
