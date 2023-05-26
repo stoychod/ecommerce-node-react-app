@@ -6,7 +6,8 @@ export default class CartItemModel {
     this.db = db;
   }
 
-  async create(cartId: string, productId: string, quantity: number) {
+  async create(item: { cartId: string; productId: string; quantity: number }) {
+    const {cartId, productId, quantity} = item;
     const statement =
       "ISNERT INTO cart_items(cart_id, product_id, quantity) VALAUES $1, $2, $3 RETURNING *";
     const result = await this.db.query(statement, [
