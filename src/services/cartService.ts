@@ -7,9 +7,16 @@ export default class CartService {
     this.cartModel = new CartModel(db);
   }
 
-  async create(userId: string) {
-    const cart = this.cartModel.create(userId);
+  async createCart(userId: string) {
+    try {
+      const cart = await this.cartModel.create(userId);
 
-    return cart;
+      return cart;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw createHttpError(500, "Server error");
+      }
+    }
+  }
   }
 }
