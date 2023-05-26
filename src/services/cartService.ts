@@ -54,4 +54,15 @@ export default class CartService {
       }
     }
   }
+
+  async updateItem(cartItemId: string, quantity: number) {
+    try {
+      const updatedItem = await this.cartItemModel.update(cartItemId, quantity);
+      return updatedItem;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw createHttpError(500, "Server error");
+      }
+    }
+  }
 }
