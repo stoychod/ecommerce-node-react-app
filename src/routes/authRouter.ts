@@ -26,12 +26,6 @@ const authRouter = (app: Application, passport: PassportStatic, db: Pool) => {
     console.log(req.user);
     return res.status(200).send(req.user);
   });
-
-  router.get("/products", async (req, res) => {
-    console.log(req.session);
-    console.log(req.user);
-    res.status(200).send("Apples, Mangos, Watermellons");
-  });
 };
 
 export default authRouter;
