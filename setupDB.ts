@@ -28,7 +28,6 @@ CREATE  TABLE IF NOT EXISTS
   cart (
     id serial PRIMARY KEY,
     users_id integer UNIQUE NOT NULL,
-    total money NOT NULL,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (users_id) REFERENCES users (id) ON DELETE CASCADE
