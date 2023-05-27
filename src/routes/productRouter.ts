@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import { Pool } from "pg";
 import ProductService from "../services/productService";
+
 const router = express.Router();
 
 const productRouter = (app: Application, db: Pool) => {

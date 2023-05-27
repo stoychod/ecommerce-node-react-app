@@ -1,8 +1,9 @@
 import express, { Application } from "express";
-const router = express.Router();
-import AuthService from "../services/authService";
-import { PassportStatic } from "passport";
 import { Pool } from "pg";
+import { PassportStatic } from "passport";
+import AuthService from "../services/authService";
+
+const router = express.Router();
 
 const authRouter = (app: Application, passport: PassportStatic, db: Pool) => {
   const authService = new AuthService(db);
