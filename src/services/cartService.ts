@@ -12,69 +12,39 @@ export default class CartService {
   }
 
   async createCart(userId: string) {
-    try {
-      const cart = await this.cartModel.create(userId);
+    const cart = await this.cartModel.create(userId);
 
-      return cart;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw createHttpError(500, "Server error");
-      }
-    }
+    return cart;
   }
 
   async loadCart(userId: string) {
-    try {
-      const cart = await this.cartModel.findOneByUserId(userId);
+    const cart = await this.cartModel.findOneByUserId(userId);
 
-      const items = await this.cartItemModel.find(cart.id);
+    const items = await this.cartItemModel.find(cart.id);
 
-      cart.items = items;
-      return cart;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw createHttpError(500, "Server error");
-      }
-    }
+    cart.items = items;
+    return cart;
   }
 
   async addItem(userId: string, data: { productId: string; quantity: number }) {
-    try {
-      const cart = await this.cartModel.findOneByUserId(userId);
+    const cart = await this.cartModel.findOneByUserId(userId);
 
-      const cartItem = await this.cartItemModel.create({
-        cartId: cart.id,
-        ...data,
-      });
+    const cartItem = await this.cartItemModel.create({
+      cartId: cart.id,
+      ...data,
+    });
 
-      return cartItem;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw createHttpError(500, "Server error");
-      }
-    }
+    return cartItem;
   }
 
   async updateItem(cartItemId: string, quantity: number) {
-    try {
-      const updatedItem = await this.cartItemModel.update(cartItemId, quantity);
-      return updatedItem;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw createHttpError(500, "Server error");
-      }
-    }
+    const updatedItem = await this.cartItemModel.update(cartItemId, quantity);
+    return updatedItem;
   }
 
   async removeItem(cartItemId: string) {
-    try {
-      const deletedItem = await this.cartItemModel.delete(cartItemId);
+    const deletedItem = await this.cartItemModel.delete(cartItemId);
 
-      return deletedItem;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw createHttpError(500, "Server error");
-      }
-    }
+    return deletedItem;
   }
 }
