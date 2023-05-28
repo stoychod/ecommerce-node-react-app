@@ -19,6 +19,15 @@ const cartRouter = (app: Application, db: Pool) => {
       res.status(200).send(cart);
     }
   });
+
+  router.post("/", isAuthenticated, async (req, res) => {
+    const userId = req.user?.id;
+    if (userId) {
+      const newCart = await cartService.createCart(userId);
+
+      res.status(200).send(newCart);
+    }
+  });
 };
 
 export default cartRouter;
