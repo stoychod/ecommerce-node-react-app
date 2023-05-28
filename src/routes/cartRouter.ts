@@ -38,6 +38,15 @@ const cartRouter = (app: Application, db: Pool) => {
       res.status(200).send(newCart);
     }
   });
+
+  router.put("/items/:cartItemId", async (req, res) => {
+    const cartItemId = req.params.cartItemId;
+    const quantity = req.body.quantity;
+
+    const updatedCartItem = await cartService.updateItem(cartItemId, quantity);
+
+    res.status(200).send(updatedCartItem);
+  });
 };
 
 export default cartRouter;
