@@ -9,27 +9,21 @@ const productRouter = (app: Application, db: Pool) => {
 
   app.use("/products", router);
 
-  router.get("/", async (req, res, next) => {
-    try {
-      const category =
-        typeof req.query.category === "string" ? req.query.category : null;
+  router.get("/", async (req, res) => {
+    const category =
+      typeof req.query.category === "string" ? req.query.category : null;
 
-      const products = await productService.listProducts(category);
+    const products = await productService.listProducts(category);
 
-      res.status(200).send(products);
-    } catch (error) {
-      next(error);
-    }
+    res.status(200).send(products);
   });
 
-  router.get("/:id", async (req, res, next) => {
-    try {
-      const productId = req.params.id;
-      const product = await productService.getProduct(productId);
-      res.status(200).send(product);
-    } catch (error) {
-      next(error);
-    }
+  router.get("/:id", async (req, res) => {
+    const productId = req.params.id;
+
+    const product = await productService.getProduct(productId);
+
+    res.status(200).send(product);
   });
 };
 

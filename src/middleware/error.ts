@@ -8,6 +8,7 @@ const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
+  logger.debug("Error middleware called...");
   logger.error(err);
   if (err instanceof HttpError) {
     const { status, message } = err;
