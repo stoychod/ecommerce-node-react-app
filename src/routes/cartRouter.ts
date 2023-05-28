@@ -54,6 +54,17 @@ const cartRouter = (app: Application, db: Pool) => {
       res.status(200).send(updatedCartItem);
     }
   });
+
+  router.delete("/items/:cartItemId", isAuthenticated, async (req, res) => {
+    const userId = req.user?.id;
+    if (userId) {
+      const cartItemId = req.params.cartItemId;
+
+      const deletedItem = await cartService.removeItem(userId, cartItemId);
+
+      res.status(200).send(deletedItem);
+    }
+  });
 };
 
 export default cartRouter;
