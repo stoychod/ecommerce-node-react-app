@@ -59,7 +59,7 @@ export default class CartItemModel {
   async delete(item: {cartItemId: string, cartId: string; }) {
     const { cartItemId, cartId } = item;
     const statement =
-      "DELETE FORM cart_items WHERE id = $1 and cart_id = $2 RETURNING *";
+      "DELETE FROM cart_items WHERE id = $1 and cart_id = $2 RETURNING *";
     const result = await this.db.query(statement, [cartItemId, cartId]);
 
     if (result.rows?.length) {
