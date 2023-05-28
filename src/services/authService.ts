@@ -2,11 +2,14 @@ import createError from "http-errors";
 import bcrypt from "bcrypt";
 import { Pool } from "pg";
 import UserModel from "../models/userModel";
+import CartModel from "../models/cartModel";
 
 export default class AuthService {
   userModel: UserModel;
+  cartModel: CartModel;
   constructor(db: Pool) {
     this.userModel = new UserModel(db);
+    this.cartModel = new CartModel(db);
   }
 
   async register(userData: {
@@ -33,6 +36,8 @@ export default class AuthService {
         firstName,
         lastName,
       ]);
+
+      await this.cartModel.create(newUser.id);
 
       return newUser;
     } catch (error) {
