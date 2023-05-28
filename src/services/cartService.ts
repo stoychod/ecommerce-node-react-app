@@ -1,7 +1,6 @@
 import { Pool } from "pg";
 import CartModel from "../models/cartModel";
 import CartItemModel from "../models/cartItemModel";
-import createHttpError from "http-errors";
 
 export default class CartService {
   cartModel: CartModel;
@@ -12,9 +11,14 @@ export default class CartService {
   }
 
   async createCart(userId: string) {
-    const cart = await this.cartModel.create(userId);
+    // check if a cart already exists for the specified user and return it
+    const cart = await this.cartModel.findOneByUserId(userId);
+    if (cart) return cart;
 
-    return cart;
+    // if not create a new cart
+    const newCart = await this.cartModel.create(userId);
+
+    return newCart;
   }
 
   async loadCart(userId: string) {
