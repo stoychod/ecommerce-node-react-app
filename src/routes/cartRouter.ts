@@ -31,21 +31,28 @@ const cartRouter = (app: Application, db: Pool) => {
 
   router.post("/items", isAuthenticated, async (req, res) => {
     const userId = req.user?.id;
-    const data = req.body;
     if (userId) {
+      const data = req.body;
+
       const newCart = await cartService.addItem(userId, data);
 
       res.status(200).send(newCart);
     }
   });
 
-  router.put("/items/:cartItemId", async (req, res) => {
-    const cartItemId = req.params.cartItemId;
-    const quantity = req.body.quantity;
+  router.put("/items/:cartItemId", isAuthenticated, async (req, res) => {
+    const userId = req.user?.id;
+    if (userId) {
+      const cartItemId = req.params.cartItemId;
+      const quantity = req.body.quantity;
 
-    const updatedCartItem = await cartService.updateItem(cartItemId, quantity);
+      const updatedCartItem = await cartService.updateItem(userId, {
+        cartItemId,
+        quantity,
+      });
 
-    res.status(200).send(updatedCartItem);
+      res.status(200).send(updatedCartItem);
+    }
   });
 };
 

@@ -41,8 +41,16 @@ export default class CartService {
     return cartItem;
   }
 
-  async updateItem(cartItemId: string, quantity: number) {
-    const updatedItem = await this.cartItemModel.update(cartItemId, quantity);
+  async updateItem(
+    userId: string,
+    data: { cartItemId: string; quantity: number }
+  ) {
+    const cart = await this.cartModel.findOneByUserId(userId);
+
+    const updatedItem = await this.cartItemModel.update({
+      cartId: cart.id,
+      ...data,
+    });
     return updatedItem;
   }
 

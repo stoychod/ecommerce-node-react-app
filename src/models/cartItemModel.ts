@@ -23,10 +23,15 @@ export default class CartItemModel {
     return null;
   }
 
-  async update(cartItemId: string, quantity: number) {
+  async update(item: { cartId: string; cartItemId: string; quantity: number }) {
+    const { cartId, cartItemId, quantity } = item;
     const statement =
-      "UPDATE cart_items SET quantity = $1 WHERE id = $2 RETURNING *";
-    const result = await this.db.query(statement, [quantity, cartItemId]);
+      "UPDATE cart_items SET quantity = $1 WHERE id = $2 AND cart_id = $3 RETURNING *";
+    const result = await this.db.query(statement, [
+      quantity,
+      cartItemId,
+      cartId,
+    ]);
 
     if (result.rows?.length) {
       return result.rows[0];
