@@ -28,6 +28,16 @@ const cartRouter = (app: Application, db: Pool) => {
       res.status(200).send(newCart);
     }
   });
+
+  router.post("/items", isAuthenticated, async (req, res) => {
+    const userId = req.user?.id;
+    const data = req.body;
+    if (userId) {
+      const newCart = await cartService.addItem(userId, data);
+
+      res.status(200).send(newCart);
+    }
+  });
 };
 
 export default cartRouter;
