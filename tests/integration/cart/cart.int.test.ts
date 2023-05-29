@@ -82,4 +82,18 @@ describe("cart routes", () => {
     db.end();
     container.stop();
   });
+
+  describe("POST /cart", () => {
+    it("should create a cart", async () => {
+      const response = await agent.post("/cart");
+      const userCart = response.body;
+
+      console.log(userCart);
+      expect(userCart).toEqual(
+        expect.objectContaining({
+          users_id: userId,
+        })
+      );
+    });
+  });
 });
