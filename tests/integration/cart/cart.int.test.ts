@@ -191,4 +191,19 @@ describe("cart routes", () => {
       });
     });
   });
+
+  describe("DELETE /cart/items/:cartItemId", () => {
+    it(" should delete the item with the given id", async () => {
+      const response = await agent.delete("/cart/items/2");
+      const deletedItem = response.body;
+      console.log(deletedItem);
+
+      expect(deletedItem).toEqual({
+        id: 2,
+        cart_id: 1,
+        product_id: 2,
+        quantity: 2,
+      });
+    });
+  });
 });
