@@ -101,7 +101,7 @@ describe("cart routes", () => {
       const response = await agent.post("/cart");
       const userCart = response.body;
 
-      console.log(userCart);
+      // console.log(userCart);
       expect(userCart).toEqual(
         expect.objectContaining({
           users_id: userId,
@@ -142,7 +142,7 @@ describe("cart routes", () => {
       const response = await agent.get("/cart");
       const userCart = response.body;
 
-      console.log(response.body);
+      // console.log(response.body);
       expect(userCart).toEqual(
         expect.objectContaining({
           id: 1,
@@ -172,6 +172,23 @@ describe("cart routes", () => {
           ]),
         })
       );
+    });
+  });
+
+  describe("PUT /cart/items/:cartItemId", () => {
+    it("should update the cart item with the given id", async () => {
+      const data = { quantity: 5 };
+
+      const response = await agent.put("/cart/items/1").send(data);
+      const updatedItem = response.body;
+      // console.log(response.body);
+
+      expect(updatedItem).toEqual({
+        id: 1,
+        cart_id: 1,
+        product_id: 1,
+        quantity: data.quantity,
+      });
     });
   });
 });
