@@ -96,4 +96,24 @@ describe("cart routes", () => {
       );
     });
   });
+
+  describe("POST /cart/items", () => {
+    it("should add an item to the user cart", async () => {
+      const item = {
+        productId: 1,
+        quantity: 1,
+      };
+      const response = await agent.post("/cart/items").send(item);
+      const userCart = response.body;
+
+      expect(userCart).toEqual(
+        expect.objectContaining({
+          id: expect.any(Number),
+          cart_id: 1,
+          product_id: item.productId,
+          quantity: item.quantity,
+        })
+      );
+    });
+  });
 });
