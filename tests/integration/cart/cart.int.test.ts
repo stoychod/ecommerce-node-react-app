@@ -8,15 +8,12 @@ import setupDB from "../../../setupDB";
 import createApp from "../../../src/app";
 import { Application } from "express";
 import AuthService from ".,/../../src/services/authService";
-import CartModel from "../../../src/models/cartModel";
 
 describe("cart routes", () => {
   let container: StartedPostgreSqlContainer,
     db: Pool,
     app: Application,
     authService: AuthService,
-    cartModel: CartModel,
-    user,
     userId: string,
     agent: SuperAgentTest;
   beforeAll(async () => {
@@ -45,19 +42,24 @@ describe("cart routes", () => {
       lastName: "lastName",
     };
 
+    // instantiate AuthService
     authService = new AuthService(db);
-    cartModel = new CartModel(db);
 
-    user = await authService.register(exampleUser);
+    // register an example user
+    await authService.register(exampleUser);
 
+    // initialize agent
     agent = request.agent(app);
 
+    // login the example user
     const response = await agent
       .post("/auth/login")
       .send({ email: exampleUser.email, password: exampleUser.password });
 
+    // get the example user id
     userId = response.body.id;
 
+    // define example products
     const products = [
       {
         name: "T-shirt",
@@ -79,6 +81,7 @@ describe("cart routes", () => {
       },
     ];
 
+    // and insert them into database
     const productsPromiseArray = products.map(async (product) => {
       const result = await db.query(
         "INSERT INTO product(name, description, category, price) VALUES($1, $2, $3, $4) RETURNING *",
@@ -87,11 +90,13 @@ describe("cart routes", () => {
       return result.rows[0];
     });
 
+    // await for async code
     const dbProducts = await Promise.all(productsPromiseArray);
     return dbProducts;
   }, 10000);
 
   afterAll(async () => {
+    // disconnect database and stop test container
     db.end();
     container.stop();
   });
@@ -101,7 +106,7 @@ describe("cart routes", () => {
       const response = await agent.post("/cart");
       const userCart = response.body;
 
-      // console.log(userCart);
+      expect(response.status).toBe(200);
       expect(userCart).toEqual(
         expect.objectContaining({
           users_id: userId,
@@ -112,13 +117,16 @@ describe("cart routes", () => {
 
   describe("POST /cart/items", () => {
     it("should add an item to the user cart", async () => {
+      // example cart item
       const item = {
         productId: 1,
         quantity: 1,
       };
+
       const response = await agent.post("/cart/items").send(item);
       const cartItem = response.body;
 
+      expect(response.status).toBe(200);
       expect(cartItem).toEqual(
         expect.objectContaining({
           id: expect.any(Number),
@@ -142,7 +150,7 @@ describe("cart routes", () => {
       const response = await agent.get("/cart");
       const userCart = response.body;
 
-      // console.log(response.body);
+      expect(response.status).toBe(200);
       expect(userCart).toEqual(
         expect.objectContaining({
           id: 1,
@@ -177,12 +185,13 @@ describe("cart routes", () => {
 
   describe("PUT /cart/items/:cartItemId", () => {
     it("should update the cart item with the given id", async () => {
+      // update quantity of the given item
       const data = { quantity: 5 };
 
       const response = await agent.put("/cart/items/1").send(data);
       const updatedItem = response.body;
-      // console.log(response.body);
 
+      expect(response.status).toBe(200);
       expect(updatedItem).toEqual({
         id: 1,
         cart_id: 1,
@@ -196,8 +205,8 @@ describe("cart routes", () => {
     it(" should delete the item with the given id", async () => {
       const response = await agent.delete("/cart/items/2");
       const deletedItem = response.body;
-      console.log(deletedItem);
 
+      expect(response.status).toBe(200);
       expect(deletedItem).toEqual({
         id: 2,
         cart_id: 1,
