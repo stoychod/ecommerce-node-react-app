@@ -70,7 +70,6 @@ CREATE  TABLE IF NOT EXISTS
     quantity integer NOT NULL,
     price money NOT NULL,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (orders_id) REFERENCES orders (id)
   );
 `;
@@ -106,12 +105,12 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 `;
 
-const addTriggerOrderItems = `
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON order_items
-FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
-`;
+// const addTriggerOrderItems = `
+// CREATE TRIGGER set_timestamp
+// BEFORE UPDATE ON order_items
+// FOR EACH ROW
+// EXECUTE PROCEDURE trigger_set_timestamp();
+// `;
 
 const setupDB = async (db: Pool) => {
   await db.query(createUsersTable);
@@ -124,7 +123,7 @@ const setupDB = async (db: Pool) => {
   await db.query(addTriggerUsers);
   await db.query(addTriggerCart);
   await db.query(addTriggerOrders);
-  await db.query(addTriggerOrderItems);
+  // await db.query(addTriggerOrderItems);
 };
 
 export default setupDB;
