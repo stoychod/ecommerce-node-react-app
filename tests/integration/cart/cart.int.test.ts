@@ -45,25 +45,6 @@ describe("cart routes", () => {
       lastName: "lastName",
     };
 
-    const product = {
-      name: "T-shirt",
-      description: "Black, cotton-blend fabric provides all-day comfort.",
-      category: "Clothing",
-      price: 15,
-    };
-
-    //insert a product in the database
-    const result = await db.query(
-      "INSERT INTO product(name, description, category, price) VALUES($1, $2, $3, $4) RETURNING *",
-      [product.name, product.description, product.category, product.price]
-    );
-
-    // check if the product has been successfully added to the database
-    if (!result.rows?.length) {
-      // if so proceed with the test
-      throw Error("Failed to insert aproduct into database in bdforeAll!");
-    }
-
     authService = new AuthService(db);
     cartModel = new CartModel(db);
 
@@ -76,6 +57,38 @@ describe("cart routes", () => {
       .send({ email: exampleUser.email, password: exampleUser.password });
 
     userId = response.body.id;
+
+    const products = [
+      {
+        name: "T-shirt",
+        description: "Black, cotton-blend fabric provides all-day comfort.",
+        category: "Clothing",
+        price: 15,
+      },
+      {
+        name: "Shorts",
+        description: "Casual training shorts for men, light and comfy",
+        category: "Clothing",
+        price: 8,
+      },
+      {
+        name: "Trainers",
+        description: "Mens Mesh Running Trainers",
+        category: "Shoes",
+        price: 30,
+      },
+    ];
+
+    const productsPromiseArray = products.map(async (product) => {
+      const result = await db.query(
+        "INSERT INTO product(name, description, category, price) VALUES($1, $2, $3, $4) RETURNING *",
+        [product.name, product.description, product.category, product.price]
+      );
+      return result.rows[0];
+    });
+
+    const dbProducts = await Promise.all(productsPromiseArray);
+    return dbProducts;
   }, 10000);
 
   afterAll(async () => {
@@ -104,14 +117,59 @@ describe("cart routes", () => {
         quantity: 1,
       };
       const response = await agent.post("/cart/items").send(item);
-      const userCart = response.body;
+      const cartItem = response.body;
 
-      expect(userCart).toEqual(
+      expect(cartItem).toEqual(
         expect.objectContaining({
           id: expect.any(Number),
           cart_id: 1,
           product_id: item.productId,
           quantity: item.quantity,
+        })
+      );
+    });
+  });
+
+  describe("GET /cart", () => {
+    it("should return all items in a user cart", async () => {
+      // add another product to the cart
+      const item = {
+        productId: 2,
+        quantity: 2,
+      };
+      await agent.post("/cart/items").send(item);
+
+      const response = await agent.get("/cart");
+      const userCart = response.body;
+
+      console.log(response.body);
+      expect(userCart).toEqual(
+        expect.objectContaining({
+          id: 1,
+          users_id: 1,
+          created_at: expect.any(String),
+          updated_at: expect.any(String),
+          items: expect.arrayContaining([
+            {
+              cartItemId: 1,
+              quantity: 1,
+              id: 1,
+              name: "T-shirt",
+              description:
+                "Black, cotton-blend fabric provides all-day comfort.",
+              category: "Clothing",
+              price: expect.any(String),
+            },
+            {
+              cartItemId: 2,
+              quantity: 2,
+              id: 2,
+              name: "Shorts",
+              description: "Casual training shorts for men, light and comfy",
+              category: "Clothing",
+              price: expect.any(String),
+            },
+          ]),
         })
       );
     });
