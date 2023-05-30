@@ -65,19 +65,19 @@ describe("cart routes", () => {
         name: "T-shirt",
         description: "Black, cotton-blend fabric provides all-day comfort.",
         category: "Clothing",
-        price: 15,
+        price: 1500,
       },
       {
         name: "Shorts",
         description: "Casual training shorts for men, light and comfy",
         category: "Clothing",
-        price: 8,
+        price: 800,
       },
       {
         name: "Trainers",
         description: "Mens Mesh Running Trainers",
         category: "Shoes",
-        price: 30,
+        price: 3000,
       },
     ];
 
@@ -166,7 +166,7 @@ describe("cart routes", () => {
               description:
                 "Black, cotton-blend fabric provides all-day comfort.",
               category: "Clothing",
-              price: expect.any(String),
+              price: expect.any(Number),
             },
             {
               cartItemId: 2,
@@ -175,7 +175,7 @@ describe("cart routes", () => {
               name: "Shorts",
               description: "Casual training shorts for men, light and comfy",
               category: "Clothing",
-              price: expect.any(String),
+              price: expect.any(Number),
             },
           ]),
         })

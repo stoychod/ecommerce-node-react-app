@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS
     name text NOT NULL,
     description text NOT NULL,
     category varchar(50),
-    price money NOT NULL
+    price integer NOT NULL
   );
   `;
 const createCartTable = `
@@ -29,7 +29,6 @@ CREATE  TABLE IF NOT EXISTS
     id serial PRIMARY KEY,
     users_id integer UNIQUE NOT NULL,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (users_id) REFERENCES users (id) ON DELETE CASCADE
   );
 `;
@@ -51,7 +50,7 @@ CREATE  TABLE IF NOT EXISTS
   orders (
     id serial PRIMARY KEY,
     users_id integer NOT NULL,
-    total money NOT NULL,
+    total integer NOT NULL,
     status varchar(50),
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -68,7 +67,7 @@ CREATE  TABLE IF NOT EXISTS
     name text NOT NULL,
     description text NOT NULL,
     quantity integer NOT NULL,
-    price money NOT NULL,
+    price integer NOT NULL,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (orders_id) REFERENCES orders (id)
   );
@@ -91,12 +90,12 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 `;
 
-const addTriggerCart = `
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON cart
-FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
-`;
+// const addTriggerCart = `
+// CREATE TRIGGER set_timestamp
+// BEFORE UPDATE ON cart
+// FOR EACH ROW
+// EXECUTE PROCEDURE trigger_set_timestamp();
+// `;
 
 const addTriggerOrders = `
 CREATE TRIGGER set_timestamp
@@ -121,7 +120,7 @@ const setupDB = async (db: Pool) => {
   await db.query(createOrderItemsTable);
   await db.query(createTimestampFunc);
   await db.query(addTriggerUsers);
-  await db.query(addTriggerCart);
+  // await db.query(addTriggerCart);
   await db.query(addTriggerOrders);
   // await db.query(addTriggerOrderItems);
 };

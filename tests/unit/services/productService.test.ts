@@ -19,7 +19,7 @@ describe("getProdct", () => {
       id: 1,
       name: "shirt",
       description: "blue",
-      price: "£10",
+      price: 1000
     };
 
     (ProductModel as jest.Mock).mockImplementation(() => {

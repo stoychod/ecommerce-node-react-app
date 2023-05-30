@@ -44,7 +44,7 @@ describe("GET /products/:id", () => {
       name: "T-shirt",
       description: "Black, cotton-blend fabric provides all-day comfort.",
       category: "Clothing",
-      price: 15,
+      price: 1500,
     };
 
     // so insert a product in the database

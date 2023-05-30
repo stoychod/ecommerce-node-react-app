@@ -43,19 +43,19 @@ describe("GET /products", () => {
         name: "T-shirt",
         description: "Black, cotton-blend fabric provides all-day comfort.",
         category: "Clothing",
-        price: 15,
+        price: 1500,
       },
       {
         name: "Shorts",
         description: "Casual training shorts for men, light and comfy",
         category: "Clothing",
-        price: 8,
+        price: 800,
       },
       {
         name: "Trainers",
         description: "Mens Mesh Running Trainers",
         category: "Shoes",
-        price: 30,
+        price: 3000,
       },
     ];
 
