@@ -1,8 +1,8 @@
-import { Pool } from "pg";
+import { Pool, PoolClient } from "pg";
 
 export default class CartItemModel {
-  db: Pool;
-  constructor(db: Pool) {
+  db: Pool | PoolClient;
+  constructor(db: Pool | PoolClient) {
     this.db = db;
   }
 
@@ -56,7 +56,7 @@ export default class CartItemModel {
     return [];
   }
 
-  async delete(item: {cartItemId: string, cartId: string; }) {
+  async deleteOne(item: { cartItemId: string; cartId: string }) {
     const { cartItemId, cartId } = item;
     const statement =
       "DELETE FROM cart_items WHERE id = $1 and cart_id = $2 RETURNING *";
@@ -67,5 +67,16 @@ export default class CartItemModel {
     }
 
     return null;
+  }
+
+  async deleteAll(cartId: string) {
+    const statement = "DELETE FROM cart_items WHERE cart_id = $1 RETURNING *";
+    const result = await this.db.query(statement, [cartId]);
+
+    if (result.rows?.length) {
+      return result.rows;
+    }
+
+    return [];
   }
 }

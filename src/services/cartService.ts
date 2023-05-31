@@ -57,7 +57,7 @@ export default class CartService {
   async removeItem(userId: string, cartItemId: string) {
     const cart = await this.cartModel.findOneByUserId(userId);
 
-    const deletedItem = await this.cartItemModel.delete({
+    const deletedItem = await this.cartItemModel.deleteOne({
       cartItemId,
       cartId: cart.id,
     });
