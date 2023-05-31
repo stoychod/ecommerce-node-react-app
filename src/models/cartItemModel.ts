@@ -42,7 +42,7 @@ export default class CartItemModel {
 
   async find(cartId: string) {
     // Generate SQL statement
-    const statement = `SELECT cart_items.id AS "cartItemId", cart_items.quantity, product.*
+    const statement = `SELECT product.*, cart_items.quantity
                          FROM cart_items
                          INNER JOIN product ON product.id = cart_items.product_id
                          WHERE cart_id = $1`;

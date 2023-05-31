@@ -26,8 +26,7 @@ export default class CartService {
 
     const items = await this.cartItemModel.find(cart.id);
 
-    cart.items = items;
-    return cart;
+    return items;
   }
 
   async addItem(userId: string, data: { productId: string; quantity: number }) {
