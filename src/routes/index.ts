@@ -4,6 +4,7 @@ import { Pool } from "pg";
 import authRouter from "./authRouter";
 import productRouter from "./productRouter";
 import cartRouter from "./cartRouter";
+import userRouter from "./userRouter";
 
 const configureRoutes = (
   app: Application,
@@ -13,6 +14,7 @@ const configureRoutes = (
   authRouter(app, passport, db);
   productRouter(app, db);
   cartRouter(app, db);
+  userRouter(app, db);
 };
 
 export default configureRoutes;
