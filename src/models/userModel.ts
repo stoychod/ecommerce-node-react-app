@@ -25,4 +25,14 @@ export default class UserModel {
 
     return null;
   }
+
+  async findOneById(userId: string) {
+    const statement = "SELECT * FROM users WHERE id = $1";
+    const result = await this.db.query(statement, [userId]);
+    if (result.rows?.length) {
+      return result.rows[0];
+    }
+
+    return null;
+  }
 }
