@@ -19,6 +19,19 @@ const userRouter = (app: Application, db: Pool) => {
       res.status(200).send(user);
     }
   });
+
+  router.put("/:userId", isAuthenticated, async (req, res) => {
+    const authUserId = req.user?.id;
+    if (authUserId) {
+      const userId = req.params.userId;
+      const updatedUser = await userService.update(authUserId,{
+        id: userId,
+        ...req.body,
+      });
+
+      res.status(200).send(updatedUser);
+    }
+  });
 };
 
 export default userRouter;
