@@ -1,20 +1,20 @@
-import { Client } from "pg";
+import { Client, PoolClient } from "pg";
 
 export default class OrderItemModel {
-  db: Client;
-  constructor(db: Client) {
+  db: PoolClient;
+  constructor(db: PoolClient) {
     this.db = db;
   }
 
   async create(item: {
     orders_id: number;
-    product_id: number;
+    id: number;
     name: string;
     description: string;
     quantity: number;
     price: number;
   }) {
-    const { orders_id, product_id, name, description, quantity, price } = item;
+    const { orders_id, id:product_id, name, description, quantity, price } = item;
     const statement =
       "INSERT INTO order_items(orders_id, product_id, name, description, quantity, price) VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
     const result = await this.db.query(statement, [

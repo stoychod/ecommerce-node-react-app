@@ -1,17 +1,17 @@
-import { Client } from "pg";
+import { PoolClient } from "pg";
 import OrderItemModel from "./orderItemModel";
 
 export default class OrdersModel {
-  db: Client;
+  db: PoolClient;
   orderItemModel: OrderItemModel;
-  constructor(db: Client) {
+  constructor(db: PoolClient) {
     this.db = db;
     this.orderItemModel = new OrderItemModel(db);
   }
 
   async initializeOrder(userId: string, total: number) {
     const statement =
-      "ISNERT INTO orders(users_id, toal, status) VALUES($1, $2. $3) RETURNIG *";
+      "INSERT INTO orders(users_id, total, status) VALUES($1, $2, $3) RETURNING *";
     const result = await this.db.query(statement, [userId, total, "PENDING"]);
 
     if (result.rows?.length) {
@@ -22,9 +22,9 @@ export default class OrdersModel {
   }
 
   async addItems(
+    orderId: number,
     cartItems: {
-      orders_id: number;
-      product_id: number;
+      id: number;
       name: string;
       description: string;
       quantity: number;
@@ -32,7 +32,7 @@ export default class OrdersModel {
     }[]
   ) {
     const promiseArrayItems = cartItems.map(async (item) => {
-      return await this.orderItemModel.create(item);
+      return await this.orderItemModel.create({ orders_id: orderId, ...item });
     });
 
     const orderItems = await Promise.all(promiseArrayItems);
@@ -40,9 +40,10 @@ export default class OrdersModel {
     return orderItems;
   }
 
-  async complete() {
-    const statement = "INSERT INTO orders(status) VALUES($1)";
-    const result = await this.db.query(statement, ["COMPLETED"]);
+  async complete(orderId: string) {
+    const statement =
+      "UPDATE orders SET status = $1 WHERE id = $2 RETURNING id, total, created_at";
+    const result = await this.db.query(statement, ["COMPLETED", orderId]);
 
     if (result.rows?.length) {
       return result.rows[0];
