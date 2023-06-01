@@ -1,8 +1,8 @@
-import { Pool } from "pg";
+import { Pool, PoolClient } from "pg";
 
 export default class CartModel {
-  db: Pool;
-  constructor(db: Pool) {
+  db: Pool | PoolClient;
+  constructor(db: Pool | PoolClient) {
     this.db = db;
   }
 
