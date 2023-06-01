@@ -12,7 +12,7 @@ export default class UserService {
     try {
       // allow curently authenticated user to get only their mathicng info
       if (userId !== String(authUserId)) {
-        throw createHttpError(401, "Unathorized request")
+        throw createHttpError(401, "Unathorized request");
       }
 
       const user = this.userModel.findOneById(userId);
@@ -22,6 +22,32 @@ export default class UserService {
       }
 
       return user;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw createHttpError(500, error);
+      }
+    }
+  }
+
+  async update(
+    authUserId: number,
+    userData: {
+      id: string;
+      email?: string;
+      password?: string;
+      firstName?: string;
+      lastName?: string;
+    }
+  ) {
+    try {
+      // allow curently authenticated user to change only their mathicng info
+      if (userData.id !== String(authUserId)) {
+        throw createHttpError(401, "Unathorized request");
+      }
+
+      const updatedUser = await this.userModel.update(userData);
+
+      return updatedUser;
     } catch (error) {
       if (error instanceof Error) {
         throw createHttpError(500, error);
