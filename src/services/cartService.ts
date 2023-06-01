@@ -1,4 +1,4 @@
-import { Client, Pool } from "pg";
+import { Pool } from "pg";
 import CartModel from "../models/cartModel";
 import CartItemModel from "../models/cartItemModel";
 import OrdersModel from "../models/ordersModel";

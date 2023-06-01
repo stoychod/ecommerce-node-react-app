@@ -65,6 +65,15 @@ const cartRouter = (app: Application, db: Pool) => {
       res.status(200).send(deletedItem);
     }
   });
+
+  router.post("/checkout", isAuthenticated, async (req, res) => {
+    const userId = req.user?.id;
+
+    if (userId) {
+      const order = await cartService.checkout(userId);
+      res.status(200).send(order);
+    }
+  });
 };
 
 export default cartRouter;

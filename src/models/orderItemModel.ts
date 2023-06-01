@@ -1,4 +1,4 @@
-import { Client, PoolClient } from "pg";
+import { PoolClient } from "pg";
 
 export default class OrderItemModel {
   db: PoolClient;
