@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import { Pool } from "pg";
 import UserService from "../services/userService";
+import validateUser from "../middleware/validateUser";
 import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = express.Router();
@@ -20,11 +21,11 @@ const userRouter = (app: Application, db: Pool) => {
     }
   });
 
-  router.put("/:userId", isAuthenticated, async (req, res) => {
+  router.put("/:userId", isAuthenticated, validateUser, async (req, res) => {
     const authUserId = req.user?.id;
     if (authUserId) {
       const userId = req.params.userId;
-      const updatedUser = await userService.update(authUserId,{
+      const updatedUser = await userService.update(authUserId, {
         id: userId,
         ...req.body,
       });
