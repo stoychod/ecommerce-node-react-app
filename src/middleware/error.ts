@@ -1,6 +1,6 @@
 import { HttpError } from "http-errors";
 import logger from "../logger/logger";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, Application } from "express";
 
 const errorMiddleware = (
   err: HttpError | Error,
@@ -18,4 +18,8 @@ const errorMiddleware = (
   return res.status(500).send({ message: "Server error" });
 };
 
-export default errorMiddleware;
+
+const configureError = (app: Application) => {
+  app.use(errorMiddleware);
+}
+export default configureError;
