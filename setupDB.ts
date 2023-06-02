@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import db from './src/db'
 
 const createUsersTable = `
 CREATE TABLE IF NOT EXISTS
@@ -90,26 +91,12 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 `;
 
-// const addTriggerCart = `
-// CREATE TRIGGER set_timestamp
-// BEFORE UPDATE ON cart
-// FOR EACH ROW
-// EXECUTE PROCEDURE trigger_set_timestamp();
-// `;
-
 const addTriggerOrders = `
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON orders
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 `;
-
-// const addTriggerOrderItems = `
-// CREATE TRIGGER set_timestamp
-// BEFORE UPDATE ON order_items
-// FOR EACH ROW
-// EXECUTE PROCEDURE trigger_set_timestamp();
-// `;
 
 const setupDB = async (db: Pool) => {
   await db.query(createUsersTable);
@@ -120,9 +107,9 @@ const setupDB = async (db: Pool) => {
   await db.query(createOrderItemsTable);
   await db.query(createTimestampFunc);
   await db.query(addTriggerUsers);
-  // await db.query(addTriggerCart);
   await db.query(addTriggerOrders);
-  // await db.query(addTriggerOrderItems);
 };
+
+setupDB(db);
 
 export default setupDB;
