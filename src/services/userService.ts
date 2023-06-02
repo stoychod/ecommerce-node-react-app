@@ -8,10 +8,10 @@ export default class UserService {
     this.userModel = new UserModel(db);
   }
 
-  async get(userId: string, authUserId: string) {
+  async get(userId: string, authUserId: number) {
     try {
       // allow curently authenticated user to get only their mathicng info
-      if (userId !== String(authUserId)) {
+      if (parseInt(userId) !== authUserId) {
         throw createHttpError(401, "Unathorized request");
       }
 
@@ -41,7 +41,7 @@ export default class UserService {
   ) {
     try {
       // allow curently authenticated user to change only their mathicng info
-      if (userData.id !== String(authUserId)) {
+      if (parseInt(userData.id) !== authUserId) {
         throw createHttpError(401, "Unathorized request");
       }
 
