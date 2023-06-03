@@ -1,0 +1,107 @@
+openapi: "3.0.0"
+
+info:
+  title: "Ecommerce API"
+  version: "1.0.0"
+  description: "Simple Ecommerce REST API Express application"
+
+servers:
+  - url: http://localhost:8000
+
+tags:
+  name: Auth
+  description: Authentication  route
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+       id:
+          type: integer
+          description: The user id
+       email:
+         type: string
+         escription: The user email
+       first_name:
+         type: string
+         description: The user first name
+       last_name:
+         type: string
+         description: The user last name
+        
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags: [Auth]
+      requestBody:
+        description: New user object
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  description: The user first name
+                lastName:
+                  type: string
+                  description: The user last name
+                email:
+                  type: string
+                  description: The user email
+                password:
+                  type: string
+                  description: The user password
+            example:
+              firstName: John
+              lastName: Doe
+              email: email@server.com
+              password: Password_1234
+      responses:
+        200:
+          description: The registered user
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
+        409:
+          description: Emali already in use.
+        500:
+          description: Server error.
+
+  /auth/login:
+    post:
+      summary: Login a user
+      tags: [Auth]
+      requestBody:
+        description: Login information
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: The user email
+                password:
+                  type: string
+                  description: The user email
+            example:
+              emali: email@server.com
+              password: Password_1234
+      responses:
+        200:
+          description: The logged-in user
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
+        401:
+          description: Incorrect username or password.
+        500:
+          description: Serever error.
