@@ -152,33 +152,24 @@ describe("cart routes", () => {
 
       expect(response.status).toBe(200);
       expect(userCart).toEqual(
-        expect.objectContaining({
-          id: 1,
-          users_id: 1,
-          created_at: expect.any(String),
-          updated_at: expect.any(String),
-          items: expect.arrayContaining([
-            {
-              cartItemId: 1,
-              quantity: 1,
-              id: 1,
-              name: "T-shirt",
-              description:
-                "Black, cotton-blend fabric provides all-day comfort.",
-              category: "Clothing",
-              price: expect.any(Number),
-            },
-            {
-              cartItemId: 2,
-              quantity: 2,
-              id: 2,
-              name: "Shorts",
-              description: "Casual training shorts for men, light and comfy",
-              category: "Clothing",
-              price: expect.any(Number),
-            },
-          ]),
-        })
+        expect.arrayContaining([
+          {
+            id: 1,
+            name: "T-shirt",
+            description: "Black, cotton-blend fabric provides all-day comfort.",
+            category: "Clothing",
+            price: expect.any(Number),
+            quantity: 1,
+          },
+          {
+            id: 2,
+            name: "Shorts",
+            description: "Casual training shorts for men, light and comfy",
+            category: "Clothing",
+            price: expect.any(Number),
+            quantity: 2,
+          },
+        ])
       );
     });
   });
