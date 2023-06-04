@@ -110,6 +110,9 @@ const setupDB = async (db: Pool) => {
   await db.query(addTriggerOrders);
 };
 
-setupDB(db);
+// do not execute setupDb if inside test environment
+if (process.env.NODE_ENV !== "test") {
+  setupDB(db);
+}
 
 export default setupDB;
