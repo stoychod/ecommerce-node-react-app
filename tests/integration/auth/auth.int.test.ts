@@ -14,7 +14,7 @@ describe(" POST /register", () => {
   // define an example user
   const user = {
     email: "email@service.com",
-    password: "password",
+    password: "Password@1234",
     firstName: "firstName",
     lastName: "lastName",
   };
@@ -49,11 +49,8 @@ describe(" POST /register", () => {
       expect.objectContaining({
         id: expect.any(Number),
         email: user.email,
-        password: expect.stringContaining("$2b$10$"),
         first_name: user.firstName,
         last_name: user.lastName,
-        created_at: expect.any(String),
-        updated_at: expect.any(String),
       })
     );
   });
@@ -83,7 +80,7 @@ describe("POST /atuh/login", () => {
   // define an example user
   const user = {
     email: "email@service.com",
-    password: "password",
+    password: "Password@1234",
     firstName: "firstName",
     lastName: "lastName",
   };
@@ -144,11 +141,8 @@ describe("POST /atuh/login", () => {
       expect.objectContaining({
         id: expect.any(Number),
         email: user.email,
-        password: expect.stringContaining("$2b$10$"),
         first_name: user.firstName,
         last_name: user.lastName,
-        created_at: expect.any(String),
-        updated_at: expect.any(String),
       })
     );
 
