@@ -6,7 +6,7 @@ export default class CartModel {
     this.db = db;
   }
 
-  async create(userId: string) {
+  async create(userId: number) {
     const statement = "INSERT INTO cart(users_id) VALUES($1) RETURNING *";
     const result = await this.db.query(statement, [userId]);
 
@@ -17,7 +17,7 @@ export default class CartModel {
     return null;
   }
 
-  async findOneByUserId(userId: string) {
+  async findOneByUserId(userId: number) {
     const statement = "SELECT * FROM cart WHERE users_id = $1";
     const result = await this.db.query(statement, [userId]);
 

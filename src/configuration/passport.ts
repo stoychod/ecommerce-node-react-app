@@ -27,7 +27,7 @@ const configurePassport = (app: Application, db: Pool) => {
     done(null, user.id);
   });
 
-  passport.deserializeUser((id: string, done) => {
+  passport.deserializeUser((id: number, done) => {
     console.log(`Deserializing user with id: ${id}`);
     done(null, { id });
   });

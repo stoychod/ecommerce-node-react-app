@@ -13,7 +13,7 @@ export default class CartService {
     this.db = db;
   }
 
-  async createCart(userId: string) {
+  async createCart(userId: number) {
     // check if a cart already exists for the specified user and return it
     const cart = await this.cartModel.findOneByUserId(userId);
     if (cart) return cart;
@@ -24,7 +24,7 @@ export default class CartService {
     return newCart;
   }
 
-  async loadCart(userId: string) {
+  async loadCart(userId: number) {
     const cart = await this.cartModel.findOneByUserId(userId);
 
     const items = await this.cartItemModel.find(cart.id);
@@ -32,7 +32,7 @@ export default class CartService {
     return items;
   }
 
-  async addItem(userId: string, data: { productId: string; quantity: number }) {
+  async addItem(userId: number, data: { productId: string; quantity: number }) {
     const cart = await this.cartModel.findOneByUserId(userId);
 
     const cartItem = await this.cartItemModel.create({
@@ -44,7 +44,7 @@ export default class CartService {
   }
 
   async updateItem(
-    userId: string,
+    userId: number,
     data: { cartItemId: string; quantity: number }
   ) {
     const cart = await this.cartModel.findOneByUserId(userId);
@@ -56,7 +56,7 @@ export default class CartService {
     return updatedItem;
   }
 
-  async removeItem(userId: string, cartItemId: string) {
+  async removeItem(userId: number, cartItemId: string) {
     const cart = await this.cartModel.findOneByUserId(userId);
 
     const deletedItem = await this.cartItemModel.deleteOne({
@@ -67,7 +67,7 @@ export default class CartService {
     return deletedItem;
   }
 
-  async checkout(userId: string) {
+  async checkout(userId: number) {
     // initialize a pool client to be able to use a transaction
     // https://node-postgres.com/features/transactions
     const client = await this.db.connect();

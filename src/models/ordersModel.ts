@@ -9,7 +9,7 @@ export default class OrdersModel {
     this.orderItemModel = new OrderItemModel(db);
   }
 
-  async initializeOrder(userId: string, total: number) {
+  async initializeOrder(userId: number, total: number) {
     const statement =
       "INSERT INTO orders(users_id, total, status) VALUES($1, $2, $3) RETURNING *";
     const result = await this.db.query(statement, [userId, total, "PENDING"]);
