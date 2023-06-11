@@ -2,7 +2,7 @@ import express, { Application } from "express";
 import { Pool } from "pg";
 import { PassportStatic } from "passport";
 import AuthService from "../services/authService";
-import validateUser from "../middleware/validateUser";
+// import validateUser from "../middleware/validateUser";
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ const authRouter = (app: Application, passport: PassportStatic, db: Pool) => {
 
   app.use("/auth", router);
 
-  router.post("/register", validateUser, async (req, res) => {
+  router.post("/register", async (req, res) => {
     const userData = req.body;
 
     const registeredUser = await authService.register(userData);
