@@ -25,7 +25,9 @@ const validateUser = (req: Request, res: Response, next: NextFunction) => {
   logger.debug(`Validating user: ${user}`);
   const { error } = userSchema.validate(user);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    const message = error.details[0].message;
+    const jsonMessage = JSON.stringify({ message: message });
+    return res.status(400).send(jsonMessage);
   }
   next();
 };
