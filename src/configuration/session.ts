@@ -16,7 +16,7 @@ const configureSession = (app: Application, db: Pool) => {
       }),
       secret: SESSION_SECRET,
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         secure: false,
         maxAge: 24 * 60 * 60 * 1000,
