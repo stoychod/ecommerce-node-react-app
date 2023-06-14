@@ -6,10 +6,10 @@ import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = express.Router();
 
-const userRouter = (app: Application, db: Pool) => {
+const userRouter = (app: Application, db: Pool, routePrefix: string) => {
   const userService = new UserService(db);
 
-  app.use("/users", router);
+  app.use(`${routePrefix}/users`, router);
 
   router.get("/:userId", isAuthenticated, async (req, res) => {
     const authUserId = req.user?.id;

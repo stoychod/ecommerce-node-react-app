@@ -4,10 +4,10 @@ import ProductService from "../services/productService";
 
 const router = express.Router();
 
-const productRouter = (app: Application, db: Pool) => {
+const productRouter = (app: Application, db: Pool, routePrefix: string) => {
   const productService = new ProductService(db);
 
-  app.use("/products", router);
+  app.use(`${routePrefix}/products`, router);
 
   router.get("/", async (req, res) => {
     const category =

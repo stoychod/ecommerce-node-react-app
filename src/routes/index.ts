@@ -9,12 +9,13 @@ import userRouter from "./userRouter";
 const configureRoutes = (
   app: Application,
   passport: PassportStatic,
-  db: Pool
+  db: Pool,
+  routePrefix: string
 ) => {
-  authRouter(app, passport, db);
-  productRouter(app, db);
-  cartRouter(app, db);
-  userRouter(app, db);
+  authRouter(app, passport, db, routePrefix);
+  productRouter(app, db, routePrefix);
+  cartRouter(app, db, routePrefix);
+  userRouter(app, db, routePrefix);
 };
 
 export default configureRoutes;

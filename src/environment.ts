@@ -12,3 +12,5 @@ export const DB = {
 };
 
 export const SESSION_SECRET = process.env.SESSION_SECRET || "";
+
+export const ROUTE_PREFIX = process.env.ROUTE_PREFIX || "";

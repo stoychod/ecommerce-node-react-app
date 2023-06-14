@@ -6,10 +6,15 @@ import AuthService from "../services/authService";
 
 const router = express.Router();
 
-const authRouter = (app: Application, passport: PassportStatic, db: Pool) => {
+const authRouter = (
+  app: Application,
+  passport: PassportStatic,
+  db: Pool,
+  routePrefix: string
+) => {
   const authService = new AuthService(db);
 
-  app.use("/auth", router);
+  app.use(`${routePrefix}/auth`, router);
 
   router.post("/register", async (req, res) => {
     const userData = req.body;
@@ -24,6 +29,12 @@ const authRouter = (app: Application, passport: PassportStatic, db: Pool) => {
     console.log(req.user);
 
     return res.status(200).send(req.user);
+  });
+
+  router.get("/checkAuthentication", (req, res) => {
+    const authenticated = req.user !== undefined;
+
+    res.status(200).send(authenticated);
   });
 };
 

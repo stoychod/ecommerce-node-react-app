@@ -5,10 +5,10 @@ import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = express.Router();
 
-const cartRouter = (app: Application, db: Pool) => {
+const cartRouter = (app: Application, db: Pool, routePrefix: string) => {
   const cartService = new CartService(db);
 
-  app.use("/cart", router);
+  app.use(`${routePrefix}/cart`, router);
 
   router.get("/", isAuthenticated, async (req, res) => {
     const userId = req.user?.id;
