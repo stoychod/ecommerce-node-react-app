@@ -31,6 +31,15 @@ const authRouter = (
     return res.status(200).send(req.user);
   });
 
+  router.post("/logout", (req, res, next) => {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).send({ message: "success" });
+    });
+  });
+
   router.get("/checkAuthentication", (req, res) => {
     const authenticated = req.user !== undefined;
 
