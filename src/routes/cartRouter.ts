@@ -10,13 +10,15 @@ const cartRouter = (app: Application, db: Pool, routePrefix: string) => {
 
   app.use(`${routePrefix}/cart`, router);
 
-  router.get("/", isAuthenticated, async (req, res) => {
+  router.get("/", async (req, res) => {
     const userId = req.user?.id;
     console.log(req.user);
     if (userId) {
       const cart = await cartService.loadCart(userId);
 
       res.status(200).send(cart);
+    } else {
+      res.status(404).send([]);
     }
   });
 
