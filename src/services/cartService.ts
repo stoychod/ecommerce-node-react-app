@@ -2,6 +2,7 @@ import { Pool } from "pg";
 import CartModel from "../models/cartModel";
 import CartItemModel from "../models/cartItemModel";
 import OrdersModel from "../models/ordersModel";
+import createHttpError from 'http-errors'
 
 export default class CartService {
   cartModel: CartModel;
@@ -26,6 +27,9 @@ export default class CartService {
 
   async loadCart(userId: number) {
     const cart = await this.cartModel.findOneByUserId(userId);
+    if (!cart) {
+      throw createHttpError(404, "User cart does not exist");
+    }
 
     const items = await this.cartItemModel.find(cart.id);
 
