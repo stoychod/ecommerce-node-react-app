@@ -17,6 +17,18 @@ export default class CartModel {
     return null;
   }
 
+  async update(userId: number, paymentId: string) {
+    const statement =
+      "UPDATE cart SET payment_id = $2 WHERE users_id = $1 RETURNING *";
+    const result = await this.db.query(statement, [userId, paymentId]);
+
+    if (result.rows?.length) {
+      return result.rows[0];
+    }
+
+    return null;
+  }
+
   async findOneByUserId(userId: number) {
     const statement = "SELECT * FROM cart WHERE users_id = $1";
     const result = await this.db.query(statement, [userId]);

@@ -17,7 +17,7 @@ const configureRoutes = (
   productRouter(app, db, routePrefix);
   cartRouter(app, db, routePrefix);
   userRouter(app, db, routePrefix);
-  paymentRouter(app, routePrefix);
+  paymentRouter(app, db, routePrefix);
 };
 
 export default configureRoutes;
