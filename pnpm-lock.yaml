@@ -43,6 +43,9 @@ dependencies:
   pg:
     specifier: ^8.10.0
     version: 8.10.0
+  stripe:
+    specifier: ^12.10.0
+    version: 12.10.0
   swagger-ui-express:
     specifier: ^4.6.3
     version: 4.6.3(express@4.18.2)
@@ -4535,6 +4538,14 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
     dev: true
+
+  /stripe@12.10.0:
+    resolution: {integrity: sha512-JJS4Bzx4LAzS8cTy26wqCdRQmhUtyV2XjFXfFTXa+W+Won2PXEWu85RpROi1ZN6pNFcWH7xrhXVW0OfCxUmwwA==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 18.16.1
+      qs: 6.11.0
+    dev: false
 
   /superagent@8.0.9:
     resolution: {integrity: sha512-4C7Bh5pyHTvU33KpZgwrNKh/VQnvgtCSqPRfJAUdmrtSYePVzVg4E4OzsrbkhJj9O7SO6Bnv75K/F8XVZT8YHA==}

@@ -26,6 +26,7 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pg": "^8.10.0",
+    "stripe": "^12.10.0",
     "swagger-ui-express": "^4.6.3",
     "winston": "^3.8.2",
     "yaml": "^2.3.1"

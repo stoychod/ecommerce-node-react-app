@@ -14,3 +14,9 @@ export const DB = {
 export const SESSION_SECRET = process.env.SESSION_SECRET || "";
 
 export const ROUTE_PREFIX = process.env.ROUTE_PREFIX || "";
+
+export const STRIPE_PUBLISHABLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY || ""; 
+
+export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
+
+export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
