@@ -21,6 +21,16 @@ const paymentRouter = (app: Application, db: Pool, routePrefix: string) => {
       res.status(200).send({ clientSecret: clientSecret });
     }
   });
+
+  router.post("/webhook", express.raw({type: "application/json"}),  async (req, res) => {
+    const signature = req.headers["stripe-signature"];
+    const rawBody = req.body;
+
+    if (typeof signature === "string") {
+      await paymentService.handleEvent(signature, rawBody);
+    }
+    res.status(200).send();
+  });
 };
 
 export default paymentRouter;
