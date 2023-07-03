@@ -5,7 +5,7 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     return next();
   }
 
-  res.redirect("/auth/login");
+  res.status(401).send("Login to access this resource");
 };
 
 export default isAuthenticated;
