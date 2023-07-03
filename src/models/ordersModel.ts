@@ -52,7 +52,7 @@ export default class OrdersModel {
     return null;
   }
 
-  async findAllByUserId(userId: string) {
+  async findAllByUserId(userId: number) {
     const statement = "SELECT * FROM orders WHERE users_id = $1";
     const result = await this.db.query(statement, [userId]);
 
