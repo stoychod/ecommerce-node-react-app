@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import CartModel from "../models/cartModel";
 import CartItemModel from "../models/cartItemModel";
 import OrdersModel from "../models/ordersModel";
-import createHttpError from 'http-errors'
+import createHttpError from "http-errors";
 
 export default class CartService {
   cartModel: CartModel;
@@ -23,6 +23,15 @@ export default class CartService {
     const newCart = await this.cartModel.create(userId);
 
     return newCart;
+  }
+
+  async findOneById(cartId: string) {
+    const cart = this.cartModel.findOneById(cartId);
+    if (!cart) {
+      throw createHttpError(404, "Cart does not exist");
+    }
+
+    return cart;
   }
 
   async loadCart(userId: number) {
@@ -71,7 +80,7 @@ export default class CartService {
     return deletedItem;
   }
 
-  async checkout(userId: number) {
+  async completeCheckout(userId: number, cartId: string, total: number) {
     // initialize a pool client to be able to use a transaction
     // https://node-postgres.com/features/transactions
     const client = await this.db.connect();
@@ -80,22 +89,14 @@ export default class CartService {
       // begin transaction
       await client.query("BEGIN");
 
-      // create a local instance of CartModel and get this user's cart
+      // create a local instance of CartModel
       const cartModel = new CartModel(client);
-      const cart = await cartModel.findOneByUserId(userId);
 
       // create a local instance of CartItemModel
       const cartItemModel = new CartItemModel(client);
 
       // and load cart items
-      const cartItems = await cartItemModel.find(cart.id);
-
-      // calculate total price
-      const total = cartItems.reduce((total, item) => {
-        return (total += Number(item.price * item.quantity));
-      }, 0);
-
-      // Stripe transaction should be here
+      const cartItems = await cartItemModel.find(cartId);
 
       // initialize an order
       const ordersModel = new OrdersModel(client);
@@ -105,7 +106,10 @@ export default class CartService {
       const orderItems = await ordersModel.addItems(order.id, cartItems);
 
       // empty cart
-      await cartItemModel.deleteAll(cart.id);
+      await cartItemModel.deleteAll(cartId);
+
+      // remve the associated payment id
+      await cartModel.update(userId)
 
       // complete the order
       const completedOrder = await ordersModel.complete(order.id);
