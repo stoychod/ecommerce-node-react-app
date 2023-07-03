@@ -17,9 +17,9 @@ export default class CartModel {
     return null;
   }
 
-  async update(userId: number, paymentId: string) {
+  async update(userId: number, paymentId?: string) {
     const statement =
-      "UPDATE cart SET payment_id = $2 WHERE users_id = $1 RETURNING *";
+      "UPDATE cart SET payment_id = COALESCE($2, NULL)  WHERE users_id = $1 RETURNING *";
     const result = await this.db.query(statement, [userId, paymentId]);
 
     if (result.rows?.length) {
