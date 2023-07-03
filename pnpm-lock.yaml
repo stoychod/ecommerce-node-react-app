@@ -117,6 +117,9 @@ devDependencies:
   jest:
     specifier: ^29.5.0
     version: 29.5.0(@types/node@18.16.1)(ts-node@10.9.1)
+  stripe-event-types:
+    specifier: ^2.3.0
+    version: 2.3.0(stripe@12.10.0)
   supertest:
     specifier: ^6.3.3
     version: 6.3.3
@@ -4539,13 +4542,20 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /stripe-event-types@2.3.0(stripe@12.10.0):
+    resolution: {integrity: sha512-4qh0wblfZBbdHn3IH9bbRrGZw+TJuIern6UjoG1+17grSyhIJFvrrqTn2ACE/wx3PE7ZLXNG5Qzo7BEXXkuyoA==}
+    peerDependencies:
+      stripe: '>=10.0.0'
+    dependencies:
+      stripe: 12.10.0
+    dev: true
+
   /stripe@12.10.0:
     resolution: {integrity: sha512-JJS4Bzx4LAzS8cTy26wqCdRQmhUtyV2XjFXfFTXa+W+Won2PXEWu85RpROi1ZN6pNFcWH7xrhXVW0OfCxUmwwA==}
     engines: {node: '>=12.*'}
     dependencies:
       '@types/node': 18.16.1
       qs: 6.11.0
-    dev: false
 
   /superagent@8.0.9:
     resolution: {integrity: sha512-4C7Bh5pyHTvU33KpZgwrNKh/VQnvgtCSqPRfJAUdmrtSYePVzVg4E4OzsrbkhJj9O7SO6Bnv75K/F8XVZT8YHA==}
