@@ -6,6 +6,7 @@ import productRouter from "./productRouter";
 import cartRouter from "./cartRouter";
 import userRouter from "./userRouter";
 import paymentRouter from "./paymentRouter";
+import ordersRouter from './ordersRouter'
 
 const configureRoutes = (
   app: Application,
@@ -18,6 +19,7 @@ const configureRoutes = (
   cartRouter(app, db, routePrefix);
   userRouter(app, db, routePrefix);
   paymentRouter(app, db, routePrefix);
+  ordersRouter(app, db, routePrefix);
 };
 
 export default configureRoutes;
