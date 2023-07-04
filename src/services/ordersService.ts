@@ -1,5 +1,6 @@
 import { Pool, PoolClient } from "pg";
 import OrdersModel from "../models/ordersModel";
+import createHttpError from "http-errors";
 
 export default class OrdersService {
   ordersModel: OrdersModel;
@@ -12,5 +13,14 @@ export default class OrdersService {
   async findAll(userId: number) {
     const orders = await this.ordersModel.findAllByUserId(userId);
     return orders;
+  }
+
+  async findOne(orderId: string) {
+    const order = await this.ordersModel.findByOrderId(orderId);
+    if (!order) {
+      throw createHttpError(404, "Order does not exist");
+    }
+
+    return order;
   }
 }

@@ -1,15 +1,11 @@
 import express, { Application } from "express";
-import { Pool} from "pg";
+import { Pool } from "pg";
 import isAuthenticated from "../middleware/isAuthenticated";
 import OrdersService from "../services/ordersService";
 
 const router = express.Router();
 
-const ordersRouter = (
-  app: Application,
-  db: Pool,
-  routePrefix: string
-) => {
+const ordersRouter = (app: Application, db: Pool, routePrefix: string) => {
   const ordersService = new OrdersService(db);
 
   app.use(`${routePrefix}/orders`, router);
@@ -22,6 +18,14 @@ const ordersRouter = (
 
       res.status(200).send(orders);
     }
+  });
+
+  router.get("/:orderId", isAuthenticated, async (req, res) => {
+    const orderId = req.params.orderId;
+
+    const order = await ordersService.findOne(orderId);
+
+    res.status(200).send(order);
   });
 };
 
