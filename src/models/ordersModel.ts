@@ -1,10 +1,10 @@
-import { PoolClient } from "pg";
+import { Pool, PoolClient } from "pg";
 import OrderItemModel from "./orderItemModel";
 
 export default class OrdersModel {
-  db: PoolClient;
+  db: Pool | PoolClient;
   orderItemModel: OrderItemModel;
-  constructor(db: PoolClient) {
+  constructor(db: Pool | PoolClient) {
     this.db = db;
     this.orderItemModel = new OrderItemModel(db);
   }
