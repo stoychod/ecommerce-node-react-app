@@ -27,6 +27,14 @@ const ordersRouter = (app: Application, db: Pool, routePrefix: string) => {
 
     res.status(200).send(order);
   });
+
+  router.get("/:orderId/items", isAuthenticated, async (req, res) => {
+    const orderId = req.params.orderId;
+
+    const orderItems = await ordersService.loadOrder(orderId);
+
+    res.status(200).send(orderItems);
+  });
 };
 
 export default ordersRouter;

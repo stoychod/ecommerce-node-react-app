@@ -34,7 +34,10 @@ export default class OrderItemModel {
   }
 
   async find(orderId: string) {
-    const statement = "SELECT * FROM order_items WHERE orders_id = $1";
+    const statement = `SELECT order_items.*, product.image
+                       FROM order_items
+                       INNER JOIN product ON product.id = order_items.product_id
+                       WHERE orders_id = $1`;
     const result = await this.db.query(statement, [orderId]);
 
     if (result.rows?.length) {
