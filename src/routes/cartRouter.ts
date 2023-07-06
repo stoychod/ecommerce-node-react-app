@@ -18,7 +18,7 @@ const cartRouter = (app: Application, db: Pool, routePrefix: string) => {
 
       res.status(200).send(cart);
     } else {
-      res.status(404).send([]);
+      res.status(200).send([]);
     }
   });
 
