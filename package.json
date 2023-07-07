@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "dev": "tsx watch src/index.ts",
-    "setup-db": "ts-node setupDB"
+    "setup-db": "ts-node setupDB",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
