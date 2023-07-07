@@ -5,7 +5,7 @@ import logger from "./logger/logger";
 
 const prefix = ROUTE_PREFIX;
 const app = createApp(db, prefix);
-const port = PORT || 3000;
+const port = PORT || 8080;
 
 app.listen(port, () => {
   logger.info(`[server]: Server is running at http://localhost:${port}`);
