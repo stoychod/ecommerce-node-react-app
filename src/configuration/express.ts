@@ -1,4 +1,5 @@
 import "express-async-errors";
+import path from "path";
 import express, { Application } from "express";
 import cors from "cors";
 import morgan from "morgan";
@@ -24,6 +25,10 @@ const configureExpress = (app: Application) => {
 
   // log incoming requests
   app.use(morgan("combined"));
+
+  // serve static react files
+  const pathName = path.join(__dirname, "..", "..", "static");
+  app.use(express.static(pathName));
 };
 
 export default configureExpress;
