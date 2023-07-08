@@ -1,0 +1,10 @@
+fly.toml
+Dockerfile
+.dockerignore
+node_modules
+src
+tests
+.env
+.eslintrs.js
+.git
+setupDB.ts
