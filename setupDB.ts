@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS
     description text NOT NULL,
     category varchar(50),
     price integer NOT NULL
+    image varchar(255) NOT NULL
   );
   `;
 const createCartTable = `
@@ -29,6 +30,7 @@ CREATE  TABLE IF NOT EXISTS
   cart (
     id serial PRIMARY KEY,
     users_id integer UNIQUE NOT NULL,
+    payment_id varchar(100),
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (users_id) REFERENCES users (id) ON DELETE CASCADE
   );
