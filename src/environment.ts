@@ -11,6 +11,8 @@ export const DB = {
   PGPORT: parseInt(process.env.PGPORT || ""),
 };
 
+export const DATABASE_URL = process.env.DATABASE_URL || "";
+
 export const SESSION_SECRET = process.env.SESSION_SECRET || "";
 
 export const ROUTE_PREFIX = process.env.ROUTE_PREFIX || "";
